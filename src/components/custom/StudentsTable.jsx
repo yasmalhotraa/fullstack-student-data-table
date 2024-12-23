@@ -256,7 +256,7 @@ const StudentsTable = () => {
       {/* Delete confirmation modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex justify-center items-center bg-gray-500 bg-opacity-50">
-          <div className="bg-white p-4 rounded-md w-1/3">
+          <div className="bg-white p-4 rounded-md w-[300px]  max-500:w-[250px]">
             <h3 className="font-semibold text-lg">
               Are you sure you want to delete this student?
             </h3>
