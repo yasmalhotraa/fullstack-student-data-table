@@ -22,7 +22,9 @@ const StudentsTable = () => {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/students"); // Assuming this is your API endpoint
+        const response = await fetch(
+          "https://student-db-backend.onrender.com/api/students"
+        ); // Assuming this is your API endpoint
         const data = await response.json();
         setStudents(data); // Set fetched students to the global store
       } catch (error) {
@@ -57,13 +59,16 @@ const StudentsTable = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/students", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newStudent),
-      });
+      const response = await fetch(
+        "https://student-db-backend.onrender.com/api/students",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newStudent),
+        }
+      );
       if (!response.ok) {
         throw new Error(`Failed to add student: ${response.statusText}`);
       }
@@ -85,7 +90,7 @@ const StudentsTable = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/students/${studentToDelete}`,
+        `https://student-db-backend.onrender.com/api/students/${studentToDelete}`,
         {
           method: "DELETE",
         }
