@@ -18,13 +18,15 @@ const StudentsTable = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [studentToDelete, setStudentToDelete] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // Add loading state for Add New Student
+  const [isDeleting, setIsDeleting] = useState(false); // Add loading state for Delete
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
         const response = await fetch(
           "https://student-db-backend.onrender.com/api/students"
-        ); // Assuming this is your API endpoint
+        );
         const data = await response.json();
         setStudents(data); // Set fetched students to the global store
       } catch (error) {
@@ -44,6 +46,7 @@ const StudentsTable = () => {
   });
 
   const handleAddNewStudent = async () => {
+    setIsLoading(true); // Start loading state for Add Student
     const newStudent = {
       name: "New Student",
       cohort: `AY ${ayFilter}`,
@@ -51,8 +54,8 @@ const StudentsTable = () => {
         { name: `${categoryFilter} Science` },
         { name: `${categoryFilter} Math` },
       ],
-      dateJoined: new Date().toISOString(), // Format to ISO 8601
-      lastLogin: new Date().toISOString(), // Format to ISO 8601
+      dateJoined: new Date().toISOString(),
+      lastLogin: new Date().toISOString(),
       status: "Active",
       academicYear: ayFilter,
       category: categoryFilter,
@@ -75,8 +78,9 @@ const StudentsTable = () => {
       const data = await response.json();
       setStudents([...students, data]); // Add new student to the list
     } catch (error) {
-      setErrorMessage(`Error: ${error.message}`);
       console.error("Error adding new student:", error);
+    } finally {
+      setIsLoading(false); // Stop loading state for Add Student
     }
   };
 
@@ -87,6 +91,8 @@ const StudentsTable = () => {
 
   const confirmDelete = async () => {
     if (!studentToDelete) return;
+
+    setIsDeleting(true); // Start loading state for Delete
 
     try {
       const response = await fetch(
@@ -105,10 +111,11 @@ const StudentsTable = () => {
       }
     } catch (error) {
       console.error("Error deleting student:", error);
+    } finally {
+      setIsDeleting(false); // Stop loading state for Delete
+      setIsModalOpen(false); // Close modal after deletion
+      setStudentToDelete(null); // Clear student to delete
     }
-
-    setIsModalOpen(false);
-    setStudentToDelete(null);
   };
 
   const cancelDelete = () => {
@@ -143,12 +150,15 @@ const StudentsTable = () => {
           {/* Add New Student Button */}
           <button
             onClick={handleAddNewStudent} // Calls the dynamic student addition function
-            className="px-3 py-2 flex items-center space-x-2 justify-center font-bold text-[#3F526E] bg-[#E9EDF1] hover:text-[#E9EDF1] rounded-md hover:bg-[#3F526E]"
+            className={`px-3 py-2 flex items-center space-x-2 justify-center font-bold text-[#3F526E] bg-[#E9EDF1] hover:text-[#E9EDF1] rounded-md hover:bg-[#3F526E] ${
+              isLoading ? "cursor-not-allowed opacity-50" : ""
+            }`}
+            disabled={isLoading} // Disable the button while loading
           >
             <div>
               <Plus className="w-6 h-6" />
             </div>
-            <span>Add new Student</span>
+            <span>{isLoading ? "Adding..." : "Add new Student"}</span>
           </button>
         </div>
       </div>
@@ -229,8 +239,9 @@ const StudentsTable = () => {
                   </td>
                   <td className="px-6 py-2">
                     <MdDelete
-                      className="w-5 h-5 text-red-500 p-0 m-0"
+                      className="w-5 h-5 text-red-500 cursor-pointer"
                       onClick={() => openDeleteModal(student.id)}
+                      disabled={isDeleting} // Disable button during delete
                     />
                   </td>
                 </tr>
@@ -239,17 +250,17 @@ const StudentsTable = () => {
           </table>
         </div>
       ) : (
-        <div className="text-center text-gray-600 mt-4">
-          No students found for the selected filters.
-        </div>
+        <p className="mt-4 text-center">No students found</p>
       )}
 
+      {/* Delete confirmation modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-md shadow-md w-96">
-            <h2 className="text-lg font-bold">Confirm Delete</h2>
-            <p>Are you sure you want to delete this student?</p>
-            <div className="mt-4 flex justify-end space-x-4">
+        <div className="fixed inset-0 z-50 flex justify-center items-center bg-gray-500 bg-opacity-50">
+          <div className="bg-white p-4 rounded-md w-1/3">
+            <h3 className="font-semibold text-lg">
+              Are you sure you want to delete this student?
+            </h3>
+            <div className="flex justify-end space-x-2 mt-4">
               <button
                 onClick={cancelDelete}
                 className="px-4 py-2 bg-gray-200 rounded-md"
@@ -259,8 +270,9 @@ const StudentsTable = () => {
               <button
                 onClick={confirmDelete}
                 className="px-4 py-2 bg-red-500 text-white rounded-md"
+                disabled={isDeleting} // Disable the button during deletion
               >
-                Delete
+                {isDeleting ? "Deleting..." : "Confirm"}
               </button>
             </div>
           </div>
