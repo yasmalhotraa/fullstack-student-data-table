@@ -58,7 +58,7 @@ const Sidebar = () => {
       </div>
 
       {/* Navigation Menu */}
-      <nav className="flex-1 pr-3 py-6 space-y-1">
+      <nav className="flex-1 pr-3 max-500:pr-0 py-6 space-y-1">
         {menuItems.map((item, index) => (
           <a
             key={index}
