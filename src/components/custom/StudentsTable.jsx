@@ -124,12 +124,12 @@ const StudentsTable = () => {
   };
 
   return (
-    <div className="p-4">
-      <div className="flex justify-between">
+    <div className="p-4 max-500:w-[340px]">
+      <div className="flex justify-between max-500:justify-normal max-500:gap-16 sm-500:justify-normal sm-500:gap-16">
         {/* Filters */}
-        <div className="flex space-x-4 mb-4">
+        <div className="flex space-x-4 max-500:space-x-1 mb-4">
           <select
-            className="px-3 py-2 font-bold text-[#3F526E] bg-[#E9EDF1] rounded-md"
+            className="px-3 py-2 max-500:text-[10px] max-500:py-0 max-500:px-0 font-bold text-[#3F526E] bg-[#E9EDF1] rounded-md"
             value={ayFilter}
             onChange={(e) => setAyFilter(e.target.value)} // Update zustand State
           >
@@ -138,7 +138,7 @@ const StudentsTable = () => {
           </select>
 
           <select
-            className="px-3 py-2 font-bold text-[#3F526E] bg-[#E9EDF1] rounded-md"
+            className="px-3 py-2 max-500:text-[10px] max-500:py-[5.5px] max-500:px-0 font-bold text-[#3F526E] bg-[#E9EDF1] rounded-md"
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)} // Update zustand State
           >
@@ -150,13 +150,13 @@ const StudentsTable = () => {
           {/* Add New Student Button */}
           <button
             onClick={handleAddNewStudent} // Calls the dynamic student addition function
-            className={`px-3 py-2 flex items-center space-x-2 justify-center font-bold text-[#3F526E] bg-[#E9EDF1] hover:text-[#E9EDF1] rounded-md hover:bg-[#3F526E] ${
+            className={`px-3 py-2 max-500:text-[10px] max-500:py-0 max-500:px-1 flex items-center max-500:space-x-0 space-x-2 justify-center font-bold text-[#3F526E] bg-[#E9EDF1] hover:text-[#E9EDF1] rounded-md hover:bg-[#3F526E] ${
               isLoading ? "cursor-not-allowed opacity-50" : ""
             }`}
             disabled={isLoading} // Disable the button while loading
           >
             <div>
-              <Plus className="w-6 h-6" />
+              <Plus className="w-6 h-6 max-500:w-4 max-500:h-4" />
             </div>
             <span>{isLoading ? "Adding..." : "Add new Student"}</span>
           </button>
@@ -166,88 +166,89 @@ const StudentsTable = () => {
       {/* Display the Table for the selected filters */}
       {filteredStudents.length > 0 ? (
         <div className="overflow-x-auto mt-4">
-          <table className="min-w-full m-0 bg-white rounded-lg overflow-hidden">
-            <thead>
-              <tr className="border-b-[1.5px]">
-                <th className="px-0 py-3 text-left font-sans text-[12px] leading-[16.34px]">
-                  Student Name
-                </th>
-                <th className="px-6 py-3 text-left  text-[12px] leading-[16.34px]">
-                  Cohort
-                </th>
-                <th className="px-6 py-3 text-left  text-[12px] leading-[16.34px]">
-                  Courses
-                </th>
-                <th className="px-6 py-3 text-left  text-[12px] leading-[16.34px]">
-                  Date Joined
-                </th>
-                <th className="px-6 py-3 text-left  text-[12px] leading-[16.34px]">
-                  Last Login
-                </th>
-                <th className="ps-6  py-3 text-left  text-[12px] leading-[16.34px]">
-                  Status
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredStudents.map((student, index) => (
-                <tr
-                  className="font-sans border-b-[1.5px] font-400 text-[12px] leading-[16.34px]"
-                  key={index}
-                >
-                  <td className="px-0 py-2">{student.name}</td>
-                  <td className="px-5 py-2">{student.cohort}</td>
-                  <td className="px-5 py-2">
-                    <div className="flex flex-wrap gap-2">
-                      {student.courses.map((course, idx) => (
-                        <div
-                          key={idx}
-                          className="flex items-center space-x-2 bg-gray-100 px-1 py-[2px] rounded-sm"
-                        >
-                          {/* Display different icons for first and second courses */}
-                          {idx === 0 && (
-                            <img
-                              className="h-5 w-5 rounded-sm"
-                              src={course1}
-                              alt="Course"
-                            />
-                          )}
-                          {idx === 1 && (
-                            <img
-                              className="h-5 w-5 rounded-sm"
-                              src={course2}
-                              alt="Course"
-                            />
-                          )}
-                          <span className="font-sans font-medium text-[12px] leading-[16.34px]">
-                            {course.name}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </td>
-                  <td className="px-5 py-2">{student.dateJoined}</td>
-                  <td className="px-5 py-2">{student.lastLogin}</td>
-                  <td className="ps-8 py-2">
-                    <span
-                      className={`inline-block w-3 h-3 rounded-full ${
-                        student.status === "Active"
-                          ? "bg-green-500"
-                          : "bg-red-500"
-                      }`}
-                    ></span>
-                  </td>
-                  <td className="px-6 py-2">
-                    <MdDelete
-                      className="w-5 h-5 text-red-500 cursor-pointer"
-                      onClick={() => openDeleteModal(student.id)}
-                      disabled={isDeleting} // Disable button during delete
-                    />
-                  </td>
+          <div className="overflow-x-auto max-500:overflow-x-scroll">
+            <table className="min-w-[600px] max-500:min-w-[800px] m-0 bg-white rounded-lg overflow-hidden">
+              <thead>
+                <tr className="border-b-[1.5px]">
+                  <th className="px-0 py-3 text-left font-sans text-[12px] leading-[16.34px]">
+                    Student Name
+                  </th>
+                  <th className="px-6 py-3 text-left text-[12px] leading-[16.34px]">
+                    Cohort
+                  </th>
+                  <th className="px-6 py-3 text-left text-[12px] leading-[16.34px]">
+                    Courses
+                  </th>
+                  <th className="px-6 py-3 text-left text-[12px] leading-[16.34px]">
+                    Date Joined
+                  </th>
+                  <th className="px-6 py-3 text-left text-[12px] leading-[16.34px]">
+                    Last Login
+                  </th>
+                  <th className="ps-6 py-3 text-left text-[12px] leading-[16.34px]">
+                    Status
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredStudents.map((student, index) => (
+                  <tr
+                    key={index}
+                    className="font-sans border-b-[1.5px] font-400 text-[12px] leading-[16.34px]"
+                  >
+                    <td className="px-0 py-2">{student.name}</td>
+                    <td className="px-5 py-2">{student.cohort}</td>
+                    <td className="px-5 py-2">
+                      <div className="flex flex-wrap gap-2">
+                        {student.courses.map((course, idx) => (
+                          <div
+                            key={idx}
+                            className="flex items-center space-x-2 bg-gray-100 px-1 py-[2px] rounded-sm"
+                          >
+                            {idx === 0 && (
+                              <img
+                                className="h-5 w-5 rounded-sm"
+                                src={course1}
+                                alt="Course"
+                              />
+                            )}
+                            {idx === 1 && (
+                              <img
+                                className="h-5 w-5 rounded-sm"
+                                src={course2}
+                                alt="Course"
+                              />
+                            )}
+                            <span className="font-sans font-medium text-[12px] leading-[16.34px]">
+                              {course.name}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-5 py-2">{student.dateJoined}</td>
+                    <td className="px-5 py-2">{student.lastLogin}</td>
+                    <td className="ps-8 py-2">
+                      <span
+                        className={`inline-block w-3 h-3 rounded-full ${
+                          student.status === "Active"
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                        }`}
+                      ></span>
+                    </td>
+                    <td className="px-6 py-2">
+                      <MdDelete
+                        className="w-5 h-5 text-red-500 cursor-pointer"
+                        onClick={() => openDeleteModal(student.id)}
+                        disabled={isDeleting}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       ) : (
         <p className="mt-4 text-center">No students found</p>

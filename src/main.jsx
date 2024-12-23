@@ -13,7 +13,7 @@ import Sidebar from "./components/custom/Sidebar";
 
 // Main layout component
 const Layout = () => (
-  <div className="flex h-screen bg-[#f6f8fa]">
+  <div className="flex bg-[#f6f8fa]">
     <Sidebar />
     <div className="flex-1 flex flex-col bg-[#f6f8fa]">
       <Header />

@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       screens: {
-        "max-500": { max: "500px" }, // Custom max-width-500 breakpoint
+        "max-500": { max: "700px" }, // Custom max-width-500 breakpoint
       },
       borderRadius: {
         lg: "var(--radius)",
