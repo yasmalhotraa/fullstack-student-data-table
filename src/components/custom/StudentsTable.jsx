@@ -124,7 +124,7 @@ const StudentsTable = () => {
   };
 
   return (
-    <div className="p-4 max-500:w-[340px]">
+    <div className="p-4 max-500:w-[300px]">
       <div className="flex justify-between max-500:justify-normal max-500:gap-16 sm-500:justify-normal sm-500:gap-16">
         {/* Filters */}
         <div className="flex space-x-4 max-500:space-x-1 mb-4">
