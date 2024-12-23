@@ -10,6 +10,11 @@ app.use(cors());
 
 app.use(express.json());
 
+prisma
+  .$connect()
+  .then(() => console.log("Database connected successfully"))
+  .catch((error) => console.error("Error connecting to database:", error));
+
 // POST - Create a new student
 app.post("/api/students", async (req, res) => {
   const {
