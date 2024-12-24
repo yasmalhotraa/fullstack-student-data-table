@@ -25,7 +25,7 @@ const StudentsTable = () => {
     const fetchStudents = async () => {
       try {
         const response = await fetch(
-          "https://student-db-backend.onrender.com/api/students"
+          "https://student-db-backend.onrender.com/api/trigger-fetch"
         );
         const data = await response.json();
         setStudents(data); // Set fetched students to the global store
