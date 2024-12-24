@@ -17,8 +17,9 @@ prisma
   .catch((error) => console.error("Error connecting to database:", error));
 
 // Cron job to fetch students every second
-cron.schedule("*/10 * * * * *", async () => {
+cron.schedule("*/1 * * * *", async () => {
   try {
+    console.clear(); // Clear the previous console output
     console.log("Fetching students from the database (via cron)...");
     const students = await prisma.student.findMany();
     console.log("Fetched students:", students);
