@@ -15,19 +15,6 @@ prisma
   .then(() => console.log("Database connected successfully"))
   .catch((error) => console.error("Error connecting to database:", error));
 
-// Fetch students only when triggered by the front-end
-app.get("/api/trigger-fetch", async (req, res) => {
-  try {
-    console.log("Fetching students from the database...");
-    const students = await prisma.student.findMany();
-    console.log("Fetched students:", students);
-    res.status(200).json(students);
-  } catch (error) {
-    console.error("Error in fetch request:", error.message);
-    res.status(500).json({ error: "Failed to fetch students" });
-  }
-});
-
 // POST - Create a new student
 app.post("/api/students", async (req, res) => {
   const {
