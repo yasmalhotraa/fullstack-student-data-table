@@ -1,6 +1,7 @@
 const express = require("express");
 const { PrismaClient } = require("@prisma/client");
 const cors = require("cors");
+const cron = require("node-cron"); // Add the cron module
 const prisma = new PrismaClient();
 const app = express();
 
@@ -9,10 +10,22 @@ app.use(cors());
 
 app.use(express.json());
 
+// Connect to the database
 prisma
   .$connect()
   .then(() => console.log("Database connected successfully"))
   .catch((error) => console.error("Error connecting to database:", error));
+
+// Cron job to fetch students every second
+cron.schedule("* * * * * *", async () => {
+  try {
+    console.log("Fetching students from the database...");
+    const students = await prisma.student.findMany();
+    console.log("Fetched students:", students);
+  } catch (error) {
+    console.error("Error in cron job while fetching students:", error);
+  }
+});
 
 // POST - Create a new student
 app.post("/api/students", async (req, res) => {
